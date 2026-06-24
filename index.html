@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSC CGL Signature Resizer — Free Tool</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f7f8fc;
+  --white: #ffffff;
+  --navy: #1a2744;
+  --blue: #1e56d9;
+  --blue-lt: #e8eefc;
+  --green: #16a34a;
+  --green-lt: #dcfce7;
+  --red: #dc2626;
+  --red-lt: #fee2e2;
+  --yellow: #d97706;
+  --yellow-lt: #fef3c7;
+  --border: #e2e6ef;
+  --text: #1a2744;
+  --muted: #6b7a99;
+  --shadow: 0 2px 16px rgba(30,86,217,0.08);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 0 0 60px;
+}
+
+/* HEADER */
+.header {
+  background: var(--navy);
+  color: white;
+  padding: 20px 24px 18px;
+  text-align: center;
+}
+
+.header-tag {
+  display: inline-block;
+  background: var(--blue);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.header h1 {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+.header h1 em {
+  color: #7ea9ff;
+  font-style: normal;
+}
+
+.header p {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #a0b0d0;
+}
+
+/* SPEC BAR */
+.spec-bar {
+  background: var(--blue-lt);
+  border-bottom: 1px solid #c9d9f7;
+  padding: 12px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  justify-content: center;
+  align-items: center;
+}
+
+.spec-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--navy);
+}
+
+.spec-item .dot {
+  width: 8px; height: 8px;
+  background: var(--blue);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* MAIN */
+.main {
+  max-width: 640px;
+  margin: 28px auto;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* CARDS */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 24px;
+  box-shadow: var(--shadow);
+}
+
+.card-head {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* UPLOAD */
+.upload-zone {
+  border: 2px dashed var(--border);
+  border-radius: 10px;
+  padding: 36px 20px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.upload-zone:hover, .upload-zone.drag { border-color: var(--blue); background: var(--blue-lt); }
+
+.upload-zone input[type="file"] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+}
+
+.upload-icon { font-size: 40px; line-height: 1; margin-bottom: 10px; }
+
+.upload-zone .up-title { font-size: 15px; font-weight: 600; color: var(--navy); }
+.upload-zone .up-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+.upload-zone .file-hint {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 12px;
+  background: var(--blue-lt);
+  color: var(--blue);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+/* TIPS */
+.tips {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tip {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 13px;
+  color: var(--text);
+  padding: 9px 12px;
+  background: var(--bg);
+  border-radius: 8px;
+  border-left: 3px solid var(--blue);
+}
+
+.tip .ti { flex-shrink: 0; font-size: 15px; }
+
+/* PREVIEW */
+.preview-section { display: flex; flex-direction: column; gap: 16px; }
+
+.canvas-wrap {
+  background: #f0f2f7;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+.canvas-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+#outputCanvas {
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  background: white;
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.kb-meter {
+  margin-top: 12px;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kb-ok   { background: var(--green-lt); color: var(--green); }
+.kb-low  { background: var(--yellow-lt); color: var(--yellow); }
+.kb-high { background: var(--red-lt); color: var(--red); }
+
+.kb-bar-wrap {
+  margin-top: 10px;
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.kb-bar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.kb-bar.ok   { background: var(--green); }
+.kb-bar.low  { background: var(--yellow); }
+.kb-bar.high { background: var(--red); }
+
+.dim-info {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* DOWNLOAD BTN */
+.dl-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: var(--blue);
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: opacity 0.15s, transform 0.1s;
+  letter-spacing: 0.01em;
+}
+
+.dl-btn:hover { opacity: 0.9; }
+.dl-btn:active { transform: scale(0.98); }
+.dl-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.reset-link {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* HIDDEN */
+.hidden { display: none !important; }
+
+/* FOOTER */
+footer {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 8px;
+  padding: 0 16px;
+}
+
+footer a { color: var(--blue); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-tag">Free Tool · No Upload · 100% Private</div>
+  <h1>SSC CGL <em>Signature Resizer</em></h1>
+  <p>Resize your scanned signature to exact SSC 2026 specs — instantly in your browser</p>
+</div>
+
+<!-- SPEC BAR -->
+<div class="spec-bar">
+  <div class="spec-item"><div class="dot"></div> Format: JPEG / JPG only</div>
+  <div class="spec-item"><div class="dot"></div> Size: 10 KB – 20 KB</div>
+  <div class="spec-item"><div class="dot"></div> Dimensions: 6 cm × 2 cm</div>
+  <div class="spec-item"><div class="dot"></div> 300 DPI → 709 × 236 px</div>
+</div>
+
+<div class="main">
+
+  <!-- TIPS -->
+  <div class="card">
+    <div class="card-head">📋 Before You Upload</div>
+    <div class="tips">
+      <div class="tip"><span class="ti">✍️</span><span>Sign on <strong>plain white, unruled paper</strong> using a <strong>black ink pen</strong></span></div>
+      <div class="tip"><span class="ti">📸</span><span>Take a clear photo in good daylight — no shadows, no grey background</span></div>
+      <div class="tip"><span class="ti">🔤</span><span>Do <strong>NOT</strong> sign in all capital letters — SSC explicitly rejects block-letter signatures</span></div>
+      <div class="tip"><span class="ti">✅</span><span>Your physical signature must match what you submit in all future SSC stages</span></div>
+    </div>
+  </div>
+
+  <!-- UPLOAD -->
+  <div class="card" id="uploadCard">
+    <div class="card-head">📤 Upload Signature</div>
+    <div class="upload-zone" id="dropZone">
+      <input type="file" id="fileInput" accept="image/*">
+      <div class="upload-icon">🖊️</div>
+      <div class="up-title">Tap to upload your signature image</div>
+      <div class="up-sub">or drag and drop here</div>
+      <div class="file-hint">JPG · PNG · WEBP accepted</div>
+    </div>
+  </div>
+
+  <!-- OUTPUT -->
+  <div class="card hidden" id="outputCard">
+    <div class="card-head">✅ Resized Output</div>
+    <div class="preview-section">
+
+      <div class="canvas-wrap">
+        <div class="canvas-label">Preview (actual SSC dimensions: 6 cm × 2 cm)</div>
+        <canvas id="outputCanvas"></canvas>
+        <div class="dim-info" id="dimInfo"></div>
+      </div>
+
+      <div>
+        <div class="kb-meter" id="kbMeter"></div>
+        <div class="kb-bar-wrap"><div class="kb-bar" id="kbBar"></div></div>
+      </div>
+
+      <button class="dl-btn" id="dlBtn">⬇️ Download SSC-Ready Signature (.jpg)</button>
+      <span class="reset-link" id="resetBtn">← Try a different image</span>
+    </div>
+  </div>
+
+  <!-- TIPS AFTER -->
+  <div class="card">
+    <div class="card-head">⚠️ Common Rejection Reasons</div>
+    <div class="tips">
+      <div class="tip" style="border-left-color:#dc2626"><span class="ti">❌</span><span>File size below 10 KB or above 20 KB</span></div>
+      <div class="tip" style="border-left-color:#dc2626"><span class="ti">❌</span><span>Grey or dark background (shoot in natural light on white paper)</span></div>
+      <div class="tip" style="border-left-color:#dc2626"><span class="ti">❌</span><span>Signature in CAPITAL LETTERS</span></div>
+      <div class="tip" style="border-left-color:#dc2626"><span class="ti">❌</span><span>Blurred or cropped signature — ensure full signature is visible</span></div>
+      <div class="tip" style="border-left-color:#dc2626"><span class="ti">❌</span><span>Uploading PNG or other formats — must be JPG</span></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  All processing happens <strong>locally in your browser</strong> — your image is never sent to any server.<br>
+  Built for SSC CGL 2026 by <a href="#">JK Tech Services</a>
+</footer>
+
+<!-- offscreen canvas -->
+<canvas id="offscreen" class="hidden"></canvas>
+
+<script>
+// SSC CGL 2026 Signature Specs
+// 6cm × 2cm at 300 DPI = 709 × 236 px
+// File: JPEG, 10KB–20KB
+
+const TARGET_W = 709;   // px (6cm @ 300dpi)
+const TARGET_H = 236;    // px (2cm @ 300dpi)
+const MIN_KB = 10;
+const MAX_KB = 20;
+const TARGET_KB = 15;   // aim for middle
+
+let currentDataUrl = null;
+
+// DOM refs
+const fileInput  = document.getElementById('fileInput');
+const dropZone   = document.getElementById('dropZone');
+const uploadCard = document.getElementById('uploadCard');
+const outputCard = document.getElementById('outputCard');
+const offscreen  = document.getElementById('offscreen');
+const canvas     = document.getElementById('outputCanvas');
+const kbMeter    = document.getElementById('kbMeter');
+const kbBar      = document.getElementById('kbBar');
+const dimInfo    = document.getElementById('dimInfo');
+const dlBtn      = document.getElementById('dlBtn');
+const resetBtn   = document.getElementById('resetBtn');
+
+// Upload
+fileInput.addEventListener('change', e => {
+  if (e.target.files[0]) processFile(e.target.files[0]);
+});
+
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag');
+  const f = e.dataTransfer.files[0];
+  if (f && f.type.startsWith('image/')) processFile(f);
+});
+
+function processFile(file) {
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const img = new Image();
+    img.onload = () => renderOutput(img);
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function renderOutput(img) {
+  // Draw to exact SSC pixel dimensions
+  offscreen.width  = TARGET_W;
+  offscreen.height = TARGET_H;
+  const ctx = offscreen.getContext('2d');
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, TARGET_W, TARGET_H);
+  ctx.drawImage(img, 0, 0, TARGET_W, TARGET_H);
+
+  // Auto-find JPEG quality that hits 10–20 KB
+  let quality = 0.92;
+  let dataUrl;
+  let sizeKB;
+  let attempts = 0;
+
+  // First pass — aim for 15KB
+  do {
+    dataUrl = offscreen.toDataURL('image/jpeg', quality);
+    sizeKB = getKB(dataUrl);
+    if (sizeKB >= MIN_KB && sizeKB <= MAX_KB) break;
+    if (sizeKB < MIN_KB) { quality = Math.min(quality + 0.04, 1.0); }
+    else { quality -= 0.04; }
+    attempts++;
+  } while (attempts < 30 && quality > 0.05 && quality <= 1.0);
+
+  currentDataUrl = dataUrl;
+
+  // Show preview canvas — scaled up for visibility (2×)
+  const scale = 0.5;
+  canvas.width  = TARGET_W * scale;
+  canvas.height = TARGET_H * scale;
+  canvas.style.width  = (TARGET_W * scale) + 'px';
+  canvas.style.height = (TARGET_H * scale) + 'px';
+  const dCtx = canvas.getContext('2d');
+  const previewImg = new Image();
+  previewImg.onload = () => dCtx.drawImage(previewImg, 0, 0, canvas.width, canvas.height);
+  previewImg.src = dataUrl;
+
+  // KB meter
+  const ok   = sizeKB >= MIN_KB && sizeKB <= MAX_KB;
+  const low  = sizeKB < MIN_KB;
+
+  kbMeter.className = 'kb-meter ' + (ok ? 'kb-ok' : low ? 'kb-low' : 'kb-high');
+  kbMeter.innerHTML = ok
+    ? `✅ ${sizeKB} KB — within SSC range (10–20 KB)`
+    : low
+    ? `⚠️ ${sizeKB} KB — slightly under 10 KB minimum`
+    : `❌ ${sizeKB} KB — exceeds 20 KB limit`;
+
+  // Progress bar: 0–25KB mapped to 0–100%
+  const pct = Math.min((sizeKB / 25) * 100, 100);
+  kbBar.style.width = pct + '%';
+  kbBar.className = 'kb-bar ' + (ok ? 'ok' : low ? 'low' : 'high');
+
+  dimInfo.textContent = `${TARGET_W} × ${TARGET_H} px  ·  6.0 cm × 2.0 cm  ·  JPEG`;
+
+  // Show output
+  uploadCard.classList.add('hidden');
+  outputCard.classList.remove('hidden');
+
+  // Download
+  dlBtn.onclick = () => {
+    const a = document.createElement('a');
+    a.href = currentDataUrl;
+    a.download = 'SSC_CGL_Signature.jpg';
+    a.click();
+  };
+}
+
+function getKB(dataUrl) {
+  // base64 → actual byte size
+  const base64 = dataUrl.split(',')[1];
+  return Math.ceil((base64.length * 3 / 4) / 1024);
+}
+
+// Reset
+resetBtn.addEventListener('click', () => {
+  fileInput.value = '';
+  currentDataUrl = null;
+  outputCard.classList.add('hidden');
+  uploadCard.classList.remove('hidden');
+});
+</script>
+</body>
+</html>
